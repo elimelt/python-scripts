@@ -1,21 +1,17 @@
-import sys
-import os
-import time
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import argparse
 from display_timer import display_timer
 
-# Read command-line arguments
-if len(sys.argv) != 7 or sys.argv[1] != '-h' or sys.argv[3] != '-m' or sys.argv[5] != '-s':
-    print("Usage: python timer.py -h [hours] -m [minutes] -s [seconds]")
-    sys.exit(1)
+# create arg parser
+parser = argparse.ArgumentParser(description="Timer script")
 
-try:
-    hours = int(sys.argv[2])
-    minutes = int(sys.argv[4])
-    seconds = int(sys.argv[6])
-except ValueError:
-    print("Error: Invalid argument. Hours, minutes, and seconds must be integers.")
-    sys.exit(1)
+# add optional args
+parser.add_argument("-H", "--hours", type=int, default=0, help="Number of hours (default: 0)")
+parser.add_argument("-M", "--minutes", type=int, default=0, help="Number of minutes (default: 0)")
+parser.add_argument("-S", "--seconds", type=int, default=0, help="Number of seconds (default: 0)")
+parser.add_argument("-seg", "--segment", action="store_true", help="Use 7-segment display")
 
-# Display the timer
-display_timer(hours, minutes, seconds)
+# parse args
+args = parser.parse_args()
+
+# display timer
+display_timer(args.hours, args.minutes, args.seconds, args.segment)
