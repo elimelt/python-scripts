@@ -39,4 +39,4 @@ use `jq` for prettier output
 
 ```bash
 python ./get-form-data.py <url> <auth-token> | python parse-responses.py | python group.py | jq
-``
+```
