@@ -8,6 +8,8 @@ def create_adjacency_matrix(input_data):
         
         # Extract email and times for each person
         people = []
+        timeslots = {}
+        
         for person in json_data:
             email = person.get("email", [])[0].get("value", "")
             timeslots = person.get("times", {})
@@ -16,7 +18,6 @@ def create_adjacency_matrix(input_data):
         
         slots = set(timeslots.keys())
 
-        print(people) 
         # Initialize the adjacency matrix with zeros
         num_people = len(people)
         adjacency_matrix = [[0] * num_people for _ in range(num_people)]
