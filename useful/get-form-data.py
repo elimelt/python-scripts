@@ -1,6 +1,7 @@
 import sys
 import re
 import requests
+import json
 
 def extract_form_id(url):
     # Extract formId from the provided URL
@@ -38,17 +39,11 @@ if __name__ == "__main__":
     # You can obtain the auth token through the appropriate authentication process
     auth_token = sys.argv[2]
 
-    print()
-    print()
-    print(form_id)
-    print()
-    print()
-    print(auth_token)
-    print()
-    print()
     form_json = get_form_responses(form_id, auth_token)
-
+        
+    form_json['token'] = auth_token
+    form_json['form_id'] = form_id
+    
     if form_json:
-        print("Form JSON:")
-        print(form_json)
+        print(json.dumps(form_json))
 
