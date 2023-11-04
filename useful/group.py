@@ -11,16 +11,34 @@ def create_adjacency_matrix(input_data):
         for person in json_data:
             email = person.get("email", [])[0].get("value", "")
             timeslots = person.get("times", {})
-            people.append({"email": email, "times": set(timeslots.keys())})
+            people.append({"email": email, "times": timeslots})
+       
         
+        slots = set(timeslots.keys())
+
+        print(people) 
         # Initialize the adjacency matrix with zeros
         num_people = len(people)
         adjacency_matrix = [[0] * num_people for _ in range(num_people)]
         
         # Fill the adjacency matrix based on common time slots
         for i in range(num_people):
-            for j in range(i + 1, num_people):
-                common_slots = len(people[i]["times"].intersection(people[j]["times"]))
+            for j in range(i + 1, num_people): 
+                common_slots = 0
+
+                for k in slots:
+                    p1 = list(people[i]["times"])
+                    p2 = list(people[i]["times"])
+                    try:
+                        i1 = p1.index(k)
+                        i2 = p2.index(k)
+
+                        s1, s2 = set(p1[i1]), set(p2[i2])
+
+                        common_slots += len(s1.intersection(s2))
+                    except ValueError:
+                        continue
+                
                 adjacency_matrix[i][j] = common_slots
                 adjacency_matrix[j][i] = common_slots
         
@@ -42,6 +60,7 @@ def form_pairs(adjacency_matrix, people):
                 if i not in paired_indices and j not in paired_indices and adjacency_matrix[i][j] > max_score:
                     max_score = adjacency_matrix[i][j]
                     pair = (i, j)
+                    print(people[pair[0]]["email"],people[pair[1]]["email"], max_score)
         if pair:
             paired_indices.add(pair[0])
             paired_indices.add(pair[1])
