@@ -61,7 +61,6 @@ def form_pairs(adjacency_matrix, people):
                 if i not in paired_indices and j not in paired_indices and adjacency_matrix[i][j] > max_score:
                     max_score = adjacency_matrix[i][j]
                     pair = (i, j)
-                    print(people[pair[0]]["email"],people[pair[1]]["email"], max_score)
         if pair:
             paired_indices.add(pair[0])
             paired_indices.add(pair[1])
@@ -79,8 +78,8 @@ if __name__ == "__main__":
     
     # Form pairs and get unpaired emails based on the adjacency matrix
     pairs, unpaired_emails = form_pairs(adjacency_matrix, people)
-    print("Paired emails:")
-    print(json.dumps(pairs, indent=2))
-    print("Unpaired emails:")
-    print(json.dumps(unpaired_emails, indent=2))
+    result = {}
+    result["Paired_emails"] = pairs
+    result["Unpaired_emails"] = unpaired_emails
 
+    print(json.dumps(result, indent=2))
