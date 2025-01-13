@@ -1,0 +1,9 @@
+{
+    "repositories": [
+        {
+            "path": "/Users/emm12/repos/notes",
+            "commit_message": "Chore - sync daily",
+            "schedule": "0 3 * * *"
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+2024-12-08 22:46:08,825 - ERROR - Config file not found: repo_config.json
+2024-12-08 22:46:12,437 - ERROR - Failed to update cron jobs: Program Error: /usr/bin/crontab returned 1: b'crontab: tmp/tmp.57113: Operation not permitted\n'
+2024-12-08 22:46:12,439 - INFO - Added repository: /Users/emm12/repos/notes

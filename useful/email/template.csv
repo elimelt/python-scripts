@@ -1,0 +1,4 @@
+to_email,name,company,role,meeting_date,meeting_time,project
+alice@example.com,Alice,Acme Corp,Engineer,2024-05-01,14:00,Project X
+bob@example.com,Bob,TechCo,Designer,2024-05-02,15:30,Project Y
+charlie@example.com,Charlie,StartupInc,Manager,2024-05-03,10:00,Project Z
