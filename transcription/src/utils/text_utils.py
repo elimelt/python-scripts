@@ -9,4 +9,4 @@ class TextFormatter:
 
     @staticmethod
     def format_transcript(text: str) -> str:
-        return "" if not text else _model.restore_punctuation(text)(text)
+        return "" if not text else _model.restore_punctuation(text)

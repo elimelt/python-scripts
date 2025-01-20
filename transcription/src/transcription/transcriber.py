@@ -22,4 +22,5 @@ class Transcriber:
             return formatted_text, transcript_path
         except Exception as e:
             print(f"Error transcribing {audio_path}: {e}")
-            return None, None
+            raise e
+            # return None, None

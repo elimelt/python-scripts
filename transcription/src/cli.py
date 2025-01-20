@@ -5,17 +5,20 @@ from typing import List
 from processor import MediaProcessor
 
 def create_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description='Download and transcribe YouTube videos')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--urls', nargs='+', help='YouTube URLs to process')
-    group.add_argument('--batch', action='store_true', help='Read URLs from stdin (one URL per line)')
-    group.add_argument('--playlist', metavar='URL', help='Process all videos in a YouTube playlist')
+    parser = argparse.ArgumentParser(description='Download, convert, and transcribe audio files')
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    input_group.add_argument('--urls', nargs='+', help='YouTube URLs to process')
+    input_group.add_argument('--batch', action='store_true', help='Read URLs from stdin (one URL per line)')
+    input_group.add_argument('--playlist', metavar='URL', help='Process all videos in a YouTube playlist')
+    input_group.add_argument('--files', nargs='+', type=Path, help='Local audio files to transcribe')
 
     parser.add_argument('--model', default='tiny.en',
                       choices=['tiny.en', 'base.en', 'small.en', 'medium.en', 'large', 'turbo'],
                       help='Whisper model to use for transcription')
     parser.add_argument('--skip-transcription', action='store_true',
                       help='Skip transcription and only download/convert audio')
+    parser.add_argument('--convert', action='store_true',
+                      help='Convert input files to WAV before transcription')
     parser.add_argument('--output-dir', default='./downloads',
                       help='Directory for processed WAV files')
     parser.add_argument('--raw-dir', default='./raw_downloads',
@@ -24,6 +27,18 @@ def create_parser() -> argparse.ArgumentParser:
                       help='Directory for transcript files')
     
     return parser
+
+def process_local_files(processor: MediaProcessor, files: List[Path], convert: bool) -> None:
+    """Process local audio files."""
+    for transcription, file_path in processor.transcribe_files(files, convert):
+        if file_path:
+            print(f"\nProcessed: {file_path}")
+            if transcription:
+                preview = transcription[:500] + "..." if len(transcription) > 500 else transcription
+                print("\nTranscription preview:")
+                print(preview)
+        else:
+            print(f"Failed to process file", file=sys.stderr)
 
 def process_batch(processor: MediaProcessor, skip_transcription: bool) -> None:
     """Process URLs from stdin."""
@@ -74,7 +89,9 @@ def main() -> None:
         transcripts_dir=args.transcripts_dir
     )
 
-    if args.batch:
+    if args.files:
+        process_local_files(processor, args.files, args.convert)
+    elif args.batch:
         if sys.stdin.isatty():
             parser.error("No input provided for batch processing. Use pipe or redirect.")
         process_batch(processor, args.skip_transcription)
