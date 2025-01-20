@@ -30,6 +30,7 @@ def create_parser() -> argparse.ArgumentParser:
 
 def process_local_files(processor: MediaProcessor, files: List[Path], convert: bool) -> None:
     """Process local audio files."""
+    print('convert', convert)
     for transcription, file_path in processor.transcribe_files(files, convert):
         if file_path:
             print(f"\nProcessed: {file_path}")
