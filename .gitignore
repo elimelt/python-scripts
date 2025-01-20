@@ -3,4 +3,9 @@
 *.pyo
 __pycache__/
 *venv
+transcriptions/.transcriptions.bak
+transcription/.transcripts.bak/
+transcription/transcriptions
+transcription/downloads/
+transcription/raw_downloads/
 data/*

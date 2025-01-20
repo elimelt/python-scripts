@@ -1,0 +1,3 @@
+pytubefix
+deepmultilingualpunctuation
+openai-whisper
